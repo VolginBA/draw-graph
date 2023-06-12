@@ -78,13 +78,64 @@ class Graph():
                 ', она не существует!!! ---')
             return False
 
+def draw_circle(centre, radius, color):
+    '''Рисуем окружность'''
+    turtle.penup()
+    turtle.goto(centre.x, (centre.y - radius))
+    turtle.pendown()
+    turtle.width(1)
+    turtle.pencolor(color)
+    turtle.circle(radius)
+    turtle.penup()
+    turtle.home()
+    return None
+
+def draw_segment(linia):
+    '''Отрисовка отрезка'''
+    turtle.penup()
+    turtle.goto(linia.point_in.x, linia.point_in.y)
+    turtle.pendown()
+    turtle.goto(linia.point_out.x, linia.point_out.y)
+    turtle.penup()
+    return None
+
+def calculate_and_draw_edge(graph, verticle_in, verticle_out, radius):
+    '''Расчитываем координаты ребра и отбражаем его'''
+    linia = Linia(Point(100, 100), Point(200, 200))
+    draw_segment(linia)
+    print('      Ребро из вершины', verticle_in, 'в', 
+            verticle_out, 'нарисовано')
+    return None
+
+def draw_graph(graph):
+    '''Рисование графа в два этапа: сначала вершины, потом рёбра'''
+    radius = RADIUS
+    color = 'black'
+    
+    # Сначала вершины....
+    for verticle in graph.verticles.keys():
+        draw_circle(graph.verticles[verticle], radius, color)
+    print('   Вершины графа нарисованы')
+
+    # Теперь связываем их рёбрами
+    for verticle_in in graph.edges.keys():
+        for verticle_out in graph.edges[verticle_in].keys():
+            calculate_and_draw_edge(graph, verticle_in, verticle_out, radius)
+    print('   Рёбра графа нарисованы')
+    return None
+
 import turtle, random, math
 ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 WIDTH = 800
 HEIGHT = 600
+RADIUS = 20
 
 def main():
     '''Организация алгоритма и вызов процедур'''
+    # 1. Создаём граф
+    graph = Graph()
+    # 2. Отрисовываем граф 
+    draw_graph(graph)
     print('Закончили работу')
     return None
 
